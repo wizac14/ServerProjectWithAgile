@@ -3,13 +3,14 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-
+const mongoose=require('mongoose');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 // session,cookies
 const session=require('express-session');
-const mongoose=require('mongoose');
-// import cac model
+
+// API
+var UserAPIRouter = require('./routes/api/UserAPI')
 
 
 
@@ -29,7 +30,9 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-
+// API 
+// http://localhost:3000/user/api
+app.use('/user/api', UserAPIRouter);
 
 
 // khai bao thong tin cua session
