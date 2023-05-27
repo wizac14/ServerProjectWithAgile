@@ -10,9 +10,11 @@ const login = async (email, password) => {
         return false;
     }
 }
-const register = async (email, password, name, description, gender, dob, avatar, role, createAt, updateAt, isLogin) => {
+const register = async (email, password, name, description, avatar, role, createAt,
+             updateAt, isLogin, isActive, isVerified, verificationCode) => {
     try {
-        return await UserService.register(email, password, name, description, gender, dob, avatar, role, createAt, updateAt, isLogin);
+        return await UserService.register(email, password, name, description, avatar, role, createAt,
+             updateAt, isLogin, isActive, isVerified, verificationCode);
 
     } catch (error) {
         return false;
@@ -26,9 +28,11 @@ const deleteUser = async (email) => {
         return false;
     }
 }
-const updateUser = async (email, password, name, description, gender, dob, avatar, role, createAt, updateAt, isLogin) => {
+const updateUser = async (email, password, name, description, avatar, role, createAt,
+             updateAt, isLogin, isActive, isVerified, verificationCode) => {
     try {
-        return await UserService.updateUser(email, password, name, description, gender, dob, avatar, role, createAt, updateAt, isLogin);
+        return await UserService.updateUser(email, password, name, description, avatar, role, createAt,
+             updateAt, isLogin, isActive, isVerified, verificationCode);
 
     } catch (error) {
         return false;
@@ -41,9 +45,9 @@ const getAllUser = async (page, size) => {
         throw error;
     }
 }
-const search = async (email) => {
+const search = async (email,name) => {
     try {
-        return await UserService.search(email);
+        return await UserService.search(email,name);
     } catch (error) {
         throw error;
     }

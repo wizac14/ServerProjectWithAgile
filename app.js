@@ -42,7 +42,7 @@ app.use(session({
   saveUninitialized: true,
   cookie: { secure: false }
 }));
-mongoose.connect('mongodb://127.0.0.1:27017/CP17310_2?readPreference=primary&appname=MongoDB%20Compass&directConnection=true&ssl=false', {
+mongoose.connect('mongodb+srv://adminLucas:123abc@cluster0.9he83yb.mongodb.net/', {
   useNewUrlParser: true,
   useUnifiedTopology: true
 })

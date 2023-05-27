@@ -30,10 +30,12 @@ router.post('/login', async (req, res, next) => {
 //http://localhost:3000/user/api/register
 router.post('/register', [], async (req, res, next) => {
     try {
-        const { email, password, name, description,
-            gender, dob, avatar, role, createAt, updateAt, isLogin } = req.body;
-        console.log(email, password, name, description, gender, dob, avatar, role, createAt, updateAt, isLogin)
-        const user = await userController.register(email, password, name, description, gender, dob, avatar, role, createAt, updateAt, isLogin);
+        const { email, password, name, description, avatar, role, createAt,
+            updateAt, isLogin, isActive, isVerified, verificationCode } = req.body;
+        console.log(email, password, name, description, avatar, role, createAt,
+            updateAt, isLogin, isActive, isVerified, verificationCode)
+        const user = await userController.register(email, password, name, description, avatar, role, createAt,
+            updateAt, isLogin, isActive, isVerified, verificationCode);
         console.log(user)
         if (user) {
             return res.status(200).json({ result: true, user: user, message: "Register Success" });
@@ -92,16 +94,16 @@ router.post('/send-mail', async (req, res, next) => {
 //http://localhost:3000/user/api/search
 router.get('/search', async (req, res, next) => {
     try {
-
         let { email } = req.body;
+        let { name } = req.body;
+
         console.log(email)
-        const user = await userController.search(email);
+        const user = await userController.search(email, name);
         console.log(user);
         if (user) {
-            res.status(200).json({ result: true, user: user, message: "Search Success" });
+            res.status(200).json({ message: "Search Success", result: true, user: user, });
         } else {
-            res.status(400).json({ result: false, user: null, message: "User not exist" });
-
+            res.status(400).json({ result: false, user: null });
         }
     } catch (error) {
         console.log(error);
@@ -112,7 +114,6 @@ router.get('/search', async (req, res, next) => {
 //Shouldn't use this cause data is money 
 router.delete('/delete', async (req, res, next) => {
     try {
-
         const { email } = req.query;
         const user = await userController.deleteUser(email);
         if (user) {
@@ -141,11 +142,10 @@ router.post('/upload-avatar', [upLoadImage.single('image')], async (req, res, ne
     }
 })
 //http://localhost:3000/user/api/change-password
-router.post('/change-password', [], async (req, res, next) => {
-
-    const { email, oldPassword, newPassword } = req.body;
-    console.log(email, oldPassword, newPassword)
+router.put('/change-password', [], async (req, res, next) => {
     try {
+        const { email, oldPassword, newPassword } = req.body;
+        console.log(email, oldPassword, newPassword)
         const user = await userController.changePassword(email, oldPassword, newPassword);
         console.log(user)
         if (user) {

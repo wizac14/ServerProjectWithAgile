@@ -15,11 +15,10 @@ const login = async (email, password) => {
     }
 }
 //http://localhost:3000/api/user/register
-const register = async (email, password, name, description, gender, dob, avatar, role, createAt, updateAt, isLogin) => {
+const register = async (email, password, name, description, avatar, role, createAt, updateAt, isLogin, isActive, isVerified, verificationCode) => {
     try {
-
-        console.log("QQQQ", email, password, name, description, gender, dob, avatar, role, createAt, updateAt, isLogin)
-
+        console.log("QQQQ", email, password, name, description, avatar, role, createAt,
+            updateAt, isLogin, isActive, isVerified, verificationCode)
 
         const user = await UserModel.findOne({ email: email })
         console.log("userrrr", user)
@@ -27,11 +26,11 @@ const register = async (email, password, name, description, gender, dob, avatar,
             const salt = bcrypt.genSaltSync(10);
             const hash = bcrypt.hashSync(password, salt);
 
-            const newUser = { email, password: hash, name, description, gender, dob, avatar, role, createAt, updateAt, isLogin };
+            const newUser = { email, password: hash, name, description, avatar, role, createAt, updateAt, isLogin, isActive, isVerified, verificationCode };
             const u = new UserModel(newUser);
             await u.save();
             return true;
-
+            6
         } else {
             return false;
         }
@@ -55,7 +54,7 @@ const deleteUser = async (email) => {
     }
 }
 
-const updateUser = async (email, password, name, description, gender, dob, avatar, role, createAt, updateAt, isLogin) => {
+const updateUser = async (email, password, name, description, avatar, role, createAt, updateAt, isLogin, isActive, isVerified, verificationCode) => {
     try {
         const user = await UserModel.findOne({ email: email })
         if (user) {
@@ -64,15 +63,15 @@ const updateUser = async (email, password, name, description, gender, dob, avata
             user.name = name ? name : user.name;
             user.description = description ? description : user.description;
 
-            user.gender = gender ? gender : user.gender;
-            user.dob = dob ? dob : user.dob;
             user.avatar = avatar ? avatar : user.avatar;
             user.role = role ? role : user.role;
+            user.isActive = isActive ? isActive : user.isActive;
+            user.isVerified = isVerified ? isVerified : user.isVerified;
+            user.verificationCode = verificationCode ? verificationCode : user.verificationCode;
 
             user.createAt = createAt ? createAt : user.createAt;
             user.updateAt = updateAt ? updateAt : user.updateAt;
             user.isLogin = isLogin ? isLogin : user.isLogin;
-
             await user.save();
             console.log("INFO USER:", user);
 
@@ -85,12 +84,17 @@ const updateUser = async (email, password, name, description, gender, dob, avata
         return false;
     }
 }
-const search = async (email) => {
+const search = async (email, name) => {
     try {
-        console.log("phoneNumber", email)
-        return await UserModel.findOne(
-            { email: email }
-        )
+        console.log("aaaaa", email, name)
+        const users = await UserModel.find({
+            $and: [
+                { name: { $regex: name, $options: 'i' } },
+                { email: { $regex: email } }
+            ]
+        })
+        console.log(users)
+        return users;
 
     } catch (error) {
         return false;
@@ -112,8 +116,11 @@ const changePassword = async (email, oldPassword, newPassword) => {
         if (user) {
             console.log("INFO USER:", user);
             const isPasswordValid = await bcrypt.compare(oldPassword, user.password)
+            console.log(isPasswordValid)
             if (isPasswordValid) {
-                user.password = newPassword
+                const salt = bcrypt.genSaltSync(10);
+                const hash = bcrypt.hashSync(newPassword, salt);
+                user.password = hash
                 await user.save();
                 return true;
             } else {
