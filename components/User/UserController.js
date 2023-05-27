@@ -10,12 +10,10 @@ const login = async (email, password) => {
         return false;
     }
 }
-const register = async (email, password, name, description, avatar, role, createAt,
-             updateAt, isLogin, isActive, isVerified, verificationCode) => {
+const register = async (email, password, name, description, avatar, role, createAt, updateAt, isLogin, isActive, isVerified, verificationCode) => {
     try {
         return await UserService.register(email, password, name, description, avatar, role, createAt,
-             updateAt, isLogin, isActive, isVerified, verificationCode);
-
+            updateAt, isLogin, isActive, isVerified, verificationCode);
     } catch (error) {
         return false;
     }
@@ -28,11 +26,10 @@ const deleteUser = async (email) => {
         return false;
     }
 }
-const updateUser = async (email, password, name, description, avatar, role, createAt,
-             updateAt, isLogin, isActive, isVerified, verificationCode) => {
+const updateUser = async (email, password, name, description, avatar, role, createAt, updateAt, isLogin, isActive, isVerified, verificationCode) => {
     try {
         return await UserService.updateUser(email, password, name, description, avatar, role, createAt,
-             updateAt, isLogin, isActive, isVerified, verificationCode);
+            updateAt, isLogin, isActive, isVerified, verificationCode);
 
     } catch (error) {
         return false;
@@ -45,9 +42,9 @@ const getAllUser = async (page, size) => {
         throw error;
     }
 }
-const search = async (email,name) => {
+const search = async (email, name) => {
     try {
-        return await UserService.search(email,name);
+        return await UserService.search(email, name);
     } catch (error) {
         throw error;
     }
@@ -88,7 +85,6 @@ const sendMail = async (email, subject, content) => {
     return false;
 }
 const sendVerifyCode = async (email, subject, verifyCode) => {
-
     try {
         const mailOptions = {
             from: "Lucas <nguyenvanson2622003@gmail.com>",
@@ -97,7 +93,6 @@ const sendVerifyCode = async (email, subject, verifyCode) => {
             html: "Your authentication code is : " + verifyCode
         }
         await UserModel.updateOne({ email }, { verificationCode: verifyCode, });
-
         return await transporter.sendMail(mailOptions);
 
     } catch (error) {
@@ -116,7 +111,6 @@ const verifyCode = async (email, verifyCode) => {
                 return true;
             } else {
                 return false;
-
             }
         } else {
             return false;

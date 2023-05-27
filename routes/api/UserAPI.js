@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 const upLoadImage = require("../../MiddleWare/UpLoadImage")
 const jwt = require('jsonwebtoken');
+const crypto = require('crypto');
 
 const userController = require('../../components/User/UserController')
 //http://localhost:3000/user/api/login
@@ -83,7 +84,7 @@ router.get('/list', async (req, res, next) => {
 router.post('/send-mail', async (req, res, next) => {
     try {
         const { email, subject } = req.body;
-        let content = '<h1>Wellcome to Genius Cooking <h1>';
+        let content = '<h1>Wellcome to ... <h1>';
         const result = await userController.sendMail(email, subject, content);
         return res.status(200).json({ result: result });
     } catch (error) {
@@ -157,6 +158,32 @@ router.put('/change-password', [], async (req, res, next) => {
         res.status(500).json({ message: 'Lỗi máy chủ' });
     }
 });
-
-
+//http://localhost:3000/user/api/send-verification-code
+router.post('/send-verification-code', async (req, res) => {
+    try {
+        const { email } = req.body;
+        let subject = "Food Shop Account Verification";
+        const verifyCode = (Math.floor(Math.random() * 90000) + 10000)
+        console.log("--->", verifyCode)
+        // const randomCode = crypto.randomBytes(3).toString('hex');
+        // const numberOnly = randomCode.replace(/\D/g, '');
+        // console.log(numberOnly);
+        const result = await userController.sendVerifyCode(email, subject, verifyCode);
+        return res.status(200).json({ message: "Send Success", result: result });
+    } catch (error) {
+        console.log("MAIL:" + error)//API
+        return res.status(500).json({ result: false, massage: "ERROR Send" })//app
+    }
+});
+//http://localhost:3000/user/api/verify-email
+router.post('/verify-email', async (req, res) => {
+    try {
+        const { email, verifyCode } = req.body;
+        const result = await userController.verifyCode(email, verifyCode);
+        return res.status(200).json({ message: "Verify Success", result: result });
+    } catch (error) {
+        console.log("MAIL:" + error)//API
+        return res.status(500).json({ result: false, massage: "ERROR Verify" })//app
+    }
+});
 module.exports = router;
