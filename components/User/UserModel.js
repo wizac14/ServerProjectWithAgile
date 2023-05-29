@@ -16,15 +16,14 @@ const userSchema = new Schema({
   description:{type:String},
   password: { type: String, required: true },
   avatar: { type: String, default: "" },
-
   role: { type: Number, default: 1 },
   isLogin:{type:Boolean,default:false},
   isActive:{type:Boolean,default:true},
   isVerified: { type: Boolean , default: false},
-  isAble:{type:Boolean,default:true},
   verificationCode: { type: String , default:000000},
   createAt: { type: Date, default: Date.now },
   updateAt:{ type: Date, default: Date.now },
+  isAble:{type:Boolean,default:true},
 });
 
 module.exports = mongoose.models.user || mongoose.model('User', userSchema);

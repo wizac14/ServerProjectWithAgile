@@ -9,10 +9,10 @@ const login = async (email, password) => {
         return false;
     }
 }
-const register = async (email, password, name, description, avatar, role, createAt, updateAt, isLogin, isActive, isVerified, verificationCode) => {
+const register = async (email, password, name, description, avatar, role, createAt, updateAt, isLogin, isActive, isVerified, verificationCode,isAble) => {
     try {
         return await UserService.register(email, password, name, description, avatar, role, createAt,
-            updateAt, isLogin, isActive, isVerified, verificationCode);
+            updateAt, isLogin, isActive, isVerified, verificationCode,isAble);
     } catch (error) {
         return false;
     }
