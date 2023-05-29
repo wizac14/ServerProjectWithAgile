@@ -186,4 +186,25 @@ router.post('/verify-email', async (req, res) => {
         return res.status(500).json({ result: false, massage: "ERROR Verify" })//app
     }
 });
+//http://localhost:3000/user/api/disable/:id
+router.put('/disable', async (req, res, next) => {
+
+    try {
+        //const { email } = req.params;
+        const {email, isAble } = req.body;
+        console.log(isAble);
+        const user = await userController.disableAccount(email,isAble);
+        console.log(user)
+        if (user) {
+            return res.status(200).json({ result: true, user: user, message: "Disabled" })
+        } else {
+            return res.status(400).json({ result: false, user: null, message: " user not exist" })
+        }
+    } catch (error) {
+        console.log(error)
+        return res.status(500).json({ result: false, user: null })
+    }
+});
+
+
 module.exports = router;

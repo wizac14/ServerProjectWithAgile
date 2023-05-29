@@ -120,9 +120,16 @@ const verifyCode = async (email, verifyCode) => {
 
     }
 }
+const disableAccount = async (email, isAble) => {
+    try {
+        return await UserService.disableAccount(email, isAble);
+    } catch (error) {
+        return false;
+    }
+}
 module.exports = {
     login, register, deleteUser,
     updateUser, getAllUser, search,
     changePassword, sendMail, sendVerifyCode,
-    verifyCode
+    verifyCode, disableAccount
 };

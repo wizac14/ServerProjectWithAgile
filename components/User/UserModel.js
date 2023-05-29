@@ -21,6 +21,7 @@ const userSchema = new Schema({
   isLogin:{type:Boolean,default:false},
   isActive:{type:Boolean,default:true},
   isVerified: { type: Boolean , default: false},
+  isAble:{type:Boolean,default:true},
   verificationCode: { type: String , default:000000},
   createAt: { type: Date, default: Date.now },
   updateAt:{ type: Date, default: Date.now },

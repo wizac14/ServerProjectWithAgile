@@ -134,8 +134,23 @@ const changePassword = async (email, oldPassword, newPassword) => {
         throw error;
     }
 }
+const disableAccount = async (email, isAble) => {
+    try {
+        console.log(isAble);
+        const user = await UserModel.findOne({ email: email })
+        if (user) {
+            user.isAble = isAble;
+            console.log(user.isAble);
+            await user.save();
+            return true;
+        } else {
+            return false;
+        }
+    } catch (error) {
 
+    }
+}
 module.exports = {
     login, register, deleteUser,
-    updateUser, getAllUser, search, changePassword
+    updateUser, getAllUser, search, changePassword, disableAccount
 };
