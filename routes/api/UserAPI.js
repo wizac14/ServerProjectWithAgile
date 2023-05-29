@@ -4,7 +4,7 @@ const upLoadImage = require("../../MiddleWare/UpLoadImage")
 const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
 
-const userController = require('../../components/User/UserController')
+const userController = require('../../components/User/UserController');
 //http://localhost:3000/user/api/login
 router.post('/login', async (req, res, next) => {
     try {
