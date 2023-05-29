@@ -6,16 +6,19 @@ var logger = require('morgan');
 const mongoose=require('mongoose');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+
 // session,cookies
 const session=require('express-session');
 
+//import Model
+require('./components/Category/CategoryModel');
+require('./components/Transaction/TransactionModel');
+
+
 // API
 var UserAPIRouter = require('./routes/api/UserAPI')
-
-
-
-
-
+var categoryAPIRouter = require('./routes/api/CategoryApi')
+var transactionAPIRouter = require('./routes/api/TransactionAPI')
 
 var app = express();
 
@@ -29,10 +32,6 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', indexRouter);
-// API 
-// http://localhost:3000/user/api
-app.use('/user/api', UserAPIRouter);
 
 
 // khai bao thong tin cua session
@@ -48,6 +47,19 @@ mongoose.connect('mongodb+srv://adminLucas:123abc@cluster0.9he83yb.mongodb.net/'
 })
   .then(() => console.log('>>>>>>>>>> DB Connected!!!!!!'))
   .catch(err => console.log('>>>>>>>>> DB Error: ', err));
+
+  app.use('/', indexRouter);
+// API 
+// http://localhost:3000/user/api
+app.use('/user/api', UserAPIRouter);
+
+// http://localhost:3000/category/api
+app.use('/api/categories', categoryAPIRouter);
+
+// http://localhost:3000/transaction/api
+app.use('/api/transactions', transactionAPIRouter);
+  
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
