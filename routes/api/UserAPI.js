@@ -3,8 +3,8 @@ var router = express.Router();
 const upLoadImage = require("../../MiddleWare/UpLoadImage")
 const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
-
 const userController = require('../../components/User/UserController')
+
 //http://localhost:3000/user/api/login
 router.post('/login', async (req, res, next) => {
     try {
@@ -29,6 +29,7 @@ router.post('/login', async (req, res, next) => {
     }
 })
 //http://localhost:3000/user/api/register
+
 router.post('/register', [], async (req, res, next) => {
     try {
         const { email, password, name, description, avatar, role, createAt,
@@ -38,7 +39,9 @@ router.post('/register', [], async (req, res, next) => {
         const user = await userController.register(email, password, name, description, avatar, role, createAt,
             updateAt, isLogin, isActive, isVerified, verificationCode);
         console.log(user)
+
         if (user) {
+            await userController.sendMailForNewAccount(email);
             return res.status(200).json({ result: true, user: user, message: "Register Success" });
         }
         return res.status(400).json({ result: false, user: null, message: "Register Failed" });
@@ -191,9 +194,9 @@ router.put('/disable', async (req, res, next) => {
 
     try {
         //const { email } = req.params;
-        const {email, isAble } = req.body;
+        const { email, isAble } = req.body;
         console.log(isAble);
-        const user = await userController.disableAccount(email,isAble);
+        const user = await userController.disableAccount(email, isAble);
         console.log(user)
         if (user) {
             return res.status(200).json({ result: true, user: user, message: "Disabled" })
@@ -206,5 +209,5 @@ router.put('/disable', async (req, res, next) => {
     }
 });
 
-
 module.exports = router;
+

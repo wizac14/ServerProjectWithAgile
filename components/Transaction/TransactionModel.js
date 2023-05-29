@@ -19,8 +19,6 @@ const transactionSchema = new Schema({
   createAt: { type: Date, default: Date.now },
   updateAt:{ type: Date, default: Date.now },
 
-
-  
 });
 
 module.exports = mongoose.models.transaction || mongoose.model('User', transactionSchema);
