@@ -10,7 +10,8 @@ var usersRouter = require('./routes/users');
 const session=require('express-session');
 
 // API
-var UserAPIRouter = require('./routes/api/UserAPI')
+var UserAPIRouter = require('./routes/api/UserAPI');
+var TransactionAPIRouter = require('./routes/api/TransactionAPI');
 
 
 
@@ -33,6 +34,8 @@ app.use('/', indexRouter);
 // API 
 // http://localhost:3000/user/api
 app.use('/user/api', UserAPIRouter);
+// http://localhost:3000/transaction/api
+app.use('/transaction/api', TransactionAPIRouter);
 
 
 // khai bao thong tin cua session
