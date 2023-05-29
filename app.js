@@ -17,8 +17,11 @@ require('./components/Transaction/TransactionModel');
 
 // API
 var UserAPIRouter = require('./routes/api/UserAPI')
-var categoryAPIRouter = require('./routes/api/CategoryApi')
-var transactionAPIRouter = require('./routes/api/TransactionAPI')
+
+
+
+
+
 
 var app = express();
 
@@ -32,6 +35,10 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use('/', indexRouter);
+// API 
+// http://localhost:3000/user/api
+app.use('/user/api', UserAPIRouter);
 
 
 // khai bao thong tin cua session

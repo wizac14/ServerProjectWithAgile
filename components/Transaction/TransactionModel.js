@@ -11,14 +11,16 @@ var datetime = currentdate.getDate() + "/"
 
 const transactionSchema = new Schema({
   id: { type: ObjectId },
-  name:{type: String},
+  name:{type:ObjectId},
   money:{type:Number},
   note:{type:String},
   image:{type:String},
-  category:{type: ObjectId,ref:'category'},
+  category:{ref:'category'},
   createAt: { type: Date, default: Date.now },
-  updateAt:{ type: Date, default: Date.now },
+  updateAt: { type: Date, default: Date.now },
 
+
+  
 });
 
 module.exports = mongoose.models.transaction || mongoose.model('Transaction', transactionSchema);
