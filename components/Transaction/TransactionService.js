@@ -32,7 +32,8 @@ const deleteTransaction = async (transactionId) => {
 
 //http://localhost:3000/api/transactions
 const updateTransaction = async (transaction) => {
-    return await TransactionModel.findOneAndUpdate({ _id: transaction._id }, transaction, { new: true });
+    return await TransactionModel.findOneAndUpdate({ _id: transaction._id }, 
+        transaction, { new: true });
 }
 
 module.exports = { addNewTransaction, getTransactions, getTransactionById, deleteTransaction, updateTransaction };
