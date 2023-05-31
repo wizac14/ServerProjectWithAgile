@@ -36,4 +36,5 @@ const updateTransaction = async (transaction) => {
         transaction, { new: true });
 }
 
+// đã push lên
 module.exports = { addNewTransaction, getTransactions, getTransactionById, deleteTransaction, updateTransaction };
